@@ -7,10 +7,9 @@
 
 import Foundation
 import CoreLocation
-import FirebaseFirestoreSwift
 
 struct Provider: Identifiable, Codable, Hashable {
-    @DocumentID var id: String?
+    var id: String?
     let name: String
     let businessName: String
     let bio: String

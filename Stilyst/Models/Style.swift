@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 
 struct Style: Identifiable, Codable, Hashable {
-    @DocumentID var id: String?
+    var id: String?
     let name: String
     let category: String // ServiceCategory rawValue
     let imageURL: String

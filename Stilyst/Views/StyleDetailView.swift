@@ -36,10 +36,14 @@ struct StyleDetailView: View {
                             .font(.stilystTitle2)
                             .fontWeight(.bold)
                             .foregroundColor(.stilystText)
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.leading)
                         
                         Text(style.description)
                             .font(.stilystBody)
-                            .foregroundColor(.stilystSecondary)
+                            .foregroundColor(.stilystSecondaryText)
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.leading)
                     }
                     
                     // Tags
@@ -51,11 +55,12 @@ struct StyleDetailView: View {
                                         .font(.caption)
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 6)
-                                        .background(Color.blue.opacity(0.1))
-                                        .foregroundColor(.blue)
+                                        .background(Color.stilystPrimary.opacity(0.1))
+                                        .foregroundColor(.stilystPrimary)
                                         .cornerRadius(16)
                                 }
                             }
+                            .padding(.horizontal, 4)
                         }
                     }
                     
@@ -70,9 +75,9 @@ struct StyleDetailView: View {
                         
                         Text("\(viewModel.providers.count) specialists near you can do this style")
                             .font(.stilystSubheadline)
-                            .foregroundColor(.stilystSecondary)
+                            .foregroundColor(.stilystSecondaryText)
                         
-                        NavigationLink(value: style.id) {
+                        NavigationLink(value: style.id ?? "") {
                             HStack {
                                 Text("View All Specialists")
                                     .font(.stilystButton)
@@ -96,12 +101,13 @@ struct StyleDetailView: View {
                                 .foregroundColor(.stilystText)
                             
                             ForEach(viewModel.providers.prefix(3)) { provider in
-                                ProviderRow(provider: provider, styleId: style.id)
+                                ProviderRow(provider: provider, styleId: style.id ?? "")
                             }
                         }
                     }
                 }
-                .padding()
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -109,7 +115,9 @@ struct StyleDetailView: View {
             ProviderListView(styleId: styleId)
         }
         .onAppear {
-            viewModel.loadProviders(for: style.id)
+            if let styleId = style.id {
+                viewModel.loadProviders(for: styleId)
+            }
         }
     }
 }
