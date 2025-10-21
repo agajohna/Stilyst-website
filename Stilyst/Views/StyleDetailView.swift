@@ -33,12 +33,13 @@ struct StyleDetailView: View {
                     // Style name and description
                     VStack(alignment: .leading, spacing: 8) {
                         Text(style.name)
-                            .font(.title)
+                            .font(.stilystTitle2)
                             .fontWeight(.bold)
+                            .foregroundColor(.stilystText)
                         
                         Text(style.description)
-                            .font(.body)
-                            .foregroundColor(.secondary)
+                            .font(.stilystBody)
+                            .foregroundColor(.stilystSecondary)
                     }
                     
                     // Tags
@@ -63,24 +64,25 @@ struct StyleDetailView: View {
                     // CTA Section
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Find Specialists")
-                            .font(.title2)
+                            .font(.stilystHeadline)
                             .fontWeight(.bold)
+                            .foregroundColor(.stilystText)
                         
                         Text("\(viewModel.providers.count) specialists near you can do this style")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .font(.stilystSubheadline)
+                            .foregroundColor(.stilystSecondary)
                         
                         NavigationLink(value: style.id) {
                             HStack {
                                 Text("View All Specialists")
-                                    .fontWeight(.semibold)
+                                    .font(.stilystButton)
                                 Spacer()
                                 Image(systemName: "arrow.right")
                             }
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.blue)
-                            .cornerRadius(12)
+                            .background(Color.stilystPrimary)
+                            .cornerRadius(16)
                         }
                     }
                     
@@ -90,7 +92,8 @@ struct StyleDetailView: View {
                     if !viewModel.providers.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Top Specialists")
-                                .font(.headline)
+                                .font(.stilystHeadline)
+                                .foregroundColor(.stilystText)
                             
                             ForEach(viewModel.providers.prefix(3)) { provider in
                                 ProviderRow(provider: provider, styleId: style.id)
@@ -177,9 +180,9 @@ struct ProviderRow: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        .background(Color.stilystSurface)
+        .cornerRadius(16)
+        .shadow(color: .stilystShadow, radius: 4, x: 0, y: 2)
     }
 }
 

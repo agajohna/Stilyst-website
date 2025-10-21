@@ -32,7 +32,7 @@ struct StylesFeedView: View {
         .navigationDestination(for: Style.self) { style in
             StyleDetailView(style: style)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color.stilystBackground)
         .onAppear {
             viewModel.loadStyles(for: category)
         }
@@ -79,24 +79,25 @@ struct StyleCard: View {
             
             // Style name
             Text(style.name)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
+                .font(.stilystCallout)
+                .fontWeight(.medium)
+                .foregroundColor(.stilystText)
                 .lineLimit(2)
             
             // Metrics
             HStack(spacing: 12) {
                 Label("\(style.viewCount)", systemImage: "eye.fill")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(.stilystCaption)
+                    .foregroundColor(.stilystSecondary)
                 
                 Label("\(style.bookingCount)", systemImage: "calendar")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(.stilystCaption)
+                    .foregroundColor(.stilystSecondary)
             }
         }
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
+        .background(Color.stilystSurface)
+        .cornerRadius(16)
+        .shadow(color: .stilystShadow, radius: 4, x: 0, y: 2)
     }
 }
 
