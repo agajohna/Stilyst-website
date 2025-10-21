@@ -10,6 +10,7 @@ import CoreLocation
 
 struct Provider: Identifiable, Codable, Hashable {
     var id: String?
+    let serviceCategory: ServiceCategory
     let name: String
     let businessName: String
     let bio: String
@@ -23,6 +24,7 @@ struct Provider: Identifiable, Codable, Hashable {
     let availability: [String] // Simplified - will expand later
     
     init(id: String? = nil,
+         serviceCategory: ServiceCategory,
          name: String,
          businessName: String,
          bio: String,
@@ -35,6 +37,7 @@ struct Provider: Identifiable, Codable, Hashable {
          location: LocationData,
          availability: [String] = []) {
         self.id = id
+        self.serviceCategory = serviceCategory
         self.name = name
         self.businessName = businessName
         self.bio = bio

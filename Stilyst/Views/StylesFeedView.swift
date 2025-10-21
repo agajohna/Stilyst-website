@@ -31,6 +31,8 @@ struct StylesFeedView: View {
             // Location Picker Header
             VStack(spacing: 12) {
                 HStack {
+                    Spacer()
+                    
                     Text("Trending in")
                         .font(.stilystSubheadline)
                         .foregroundColor(.stilystSecondaryText)
@@ -51,6 +53,8 @@ struct StylesFeedView: View {
                                 .foregroundColor(.stilystPrimary)
                         }
                     }
+                    
+                    Spacer()
                 }
                 
                 // Location indicator
@@ -89,8 +93,8 @@ struct StylesFeedView: View {
             // Styles Grid - Following Apple HIG spacing principles
             ScrollView {
                 LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: 16),
-                    GridItem(.flexible(), spacing: 16)
+                    GridItem(.adaptive(minimum: 160, maximum: 180), spacing: 16),
+                    GridItem(.adaptive(minimum: 160, maximum: 180), spacing: 16)
                 ], spacing: 16) {
                     ForEach(viewModel.styles) { style in
                         NavigationLink(value: style) {
@@ -154,7 +158,7 @@ struct StyleCard: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .stilystPrimary))
                         }
                 }
-                .frame(height: 160) // Fixed height to prevent stretching
+                .frame(height: 140) // Consistent height for better proportions
                 .clipped()
                 
                 // Gradient overlay for better text readability
@@ -225,6 +229,7 @@ struct StyleCard: View {
             }
             .padding(16)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Color.stilystSurface)
         .cornerRadius(16)
         .overlay(
@@ -262,8 +267,10 @@ class StylesFeedViewModel: ObservableObject {
     @Published var isLoading = false
     
     private let styleService = StyleService()
+    private var currentCategory: ServiceCategory?
     
     func loadStyles(for category: ServiceCategory, location: String = "Near You") {
+        currentCategory = category
         isLoading = true
         
         if location == "Near You" {
@@ -286,8 +293,8 @@ class StylesFeedViewModel: ObservableObject {
     }
     
     func incrementViewCount(for style: Style) {
-        guard let styleId = style.id else { return }
-        styleService.incrementViewCount(for: styleId)
+        guard let styleId = style.id, let category = currentCategory else { return }
+        styleService.incrementViewCount(for: styleId, category: category)
     }
 }
 

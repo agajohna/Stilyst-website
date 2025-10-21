@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ServiceCategory: String, CaseIterable, Identifiable {
+enum ServiceCategory: String, CaseIterable, Identifiable, Codable {
     case mensHair = "Men's Hairstyles"
     case womensHair = "Women's Hairstyles"
     case nails = "Nails"

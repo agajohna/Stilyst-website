@@ -7,38 +7,25 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct HomeView: View {
     @State private var selectedCategory: ServiceCategory?
+    @State private var showingProviderOnboarding = false
+    @State private var showingProfile = false
+    @StateObject private var authService = PhoneAuthService()
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) { // Apple HIG: 32pt spacing for sections
-                    // Header with logo and enhanced styling
+                    // Header with tagline only
                     VStack(alignment: .leading, spacing: 16) {
-                        HStack(alignment: .center, spacing: 16) {
-                            // Logo
-                            Image("logo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(12)
-                                .shadow(color: .stilystShadow, radius: 4, x: 0, y: 2)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Stilyst")
-                                    .font(.stilystLargeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.stilystText)
-                                
-                                Text("Discover your look. Book your stylist.")
-                                    .font(.stilystSubheadline)
-                                    .foregroundColor(.stilystSecondaryText)
-                            }
-                            
-                            Spacer()
-                        }
+                        Text("Discover your look. Book your stylist.")
+                            .font(.stilystTitle2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.stilystText)
+                            .multilineTextAlignment(.leading)
                         
                         // Subtle divider line with gradient
                         LinearGradient(
@@ -53,7 +40,7 @@ struct HomeView: View {
                         .frame(height: 1)
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 8)
+                    .padding(.top, 20)
                     
                     // Category Grid - Following Apple HIG spacing principles
                     LazyVGrid(columns: [
@@ -69,11 +56,39 @@ struct HomeView: View {
                         }
                     }
                     .padding(.horizontal, 20) // Apple HIG: 20pt horizontal padding
+                    
+                    // Provider Onboarding Button
+                    VStack(spacing: 12) {
+                        Text("Are you a barber or stylist?")
+                            .font(.stilystSubheadline)
+                            .foregroundColor(.stilystSecondaryText)
+                        
+                        Button(action: {
+                            showingProviderOnboarding = true
+                        }) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "scissors")
+                                    .font(.stilystCallout)
+                                Text("Join as a Provider")
+                                    .font(.stilystButton)
+                                    .fontWeight(.semibold)
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 16)
+                            .background(Color.stilystPrimary)
+                            .cornerRadius(25)
+                        }
+                    }
+                    .padding(.horizontal, 20)
                 }
                 .padding(.vertical, 20) // Apple HIG: 20pt vertical padding
             }
             .navigationDestination(for: ServiceCategory.self) { category in
                 StylesFeedView(category: category)
+            }
+            .sheet(isPresented: $showingProviderOnboarding) {
+                ProviderOnboardingView()
             }
             .background(Color.stilystBackground)
             .navigationBarTitleDisplayMode(.inline)
@@ -91,6 +106,32 @@ struct HomeView: View {
                             .foregroundColor(.stilystText)
                     }
                 }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if let user = authService.user {
+                        Button(action: {
+                            showingProfile = true
+                        }) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "person.circle.fill")
+                                    .font(.title3)
+                                    .foregroundColor(.stilystPrimary)
+                                
+                                VStack(alignment: .trailing, spacing: 2) {
+                                    Text("Signed In")
+                                        .font(.stilystCaption2)
+                                        .foregroundColor(.stilystSecondaryText)
+                                }
+                            }
+                        }
+                        .sheet(isPresented: $showingProfile) {
+                            UserProfileView(authService: authService)
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                authService.checkAuthState()
             }
         }
     }

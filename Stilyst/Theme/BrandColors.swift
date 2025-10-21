@@ -29,13 +29,15 @@ extension Color {
     static let stilystSeparator = Color(.separator)
     static let stilystOpaqueSeparator = Color(.opaqueSeparator)
     
-    // MARK: - Brand Colors (Sophisticated Warm Palette)
-    static let stilystPrimary = Color(hex: "#E7BFB2")          // Blush Nude - buttons, icons, highlights
-    static let stilystBackground = Color(hex: "#FAF9F8")       // Soft Ivory - optional background
+    // MARK: - Brand Colors (Soft Industrial Palette)
+    // Iron Gray (#3B3C3E), Ash White (#F3F2F0), Copper Mist (#C8A07A)
+    // Sleek, mature, and subtly warm — premium design with human touch
+    static let stilystPrimary = Color(hex: "#C8A07A")          // Copper Mist - buttons, icons, highlights
+    static let stilystBackground = Color(hex: "#F3F2F0")       // Ash White - main background
     static let stilystSurface = Color.white                    // Clean white for cards
-    static let stilystText = Color(hex: "#4E4A46")            // Warm Charcoal - main text
-    static let stilystSecondaryText = Color(hex: "#4E4A46").opacity(0.7) // Warm Charcoal with opacity
-    static let stilystBorder = Color(hex: "#E7BFB2").opacity(0.3) // Subtle blush borders
+    static let stilystText = Color(hex: "#3B3C3E")            // Iron Gray - main text
+    static let stilystSecondaryText = Color(hex: "#3B3C3E").opacity(0.7) // Iron Gray with opacity
+    static let stilystBorder = Color(hex: "#C8A07A").opacity(0.3) // Subtle copper borders
     
     // MARK: - Semantic Colors (Apple HIG)
     static let stilystSuccess = Color.green
@@ -43,17 +45,17 @@ extension Color {
     static let stilystWarning = Color.orange
     static let stilystInfo = Color.blue
     
-    // MARK: - Interactive States (Using new palette)
-    static let stilystHighlight = Color(hex: "#E7BFB2").opacity(0.2) // Blush highlight
-    static let stilystPressed = Color(hex: "#E7BFB2").opacity(0.1)   // Blush pressed state
+    // MARK: - Interactive States (Soft Industrial)
+    static let stilystHighlight = Color(hex: "#C8A07A").opacity(0.2) // Copper highlight
+    static let stilystPressed = Color(hex: "#C8A07A").opacity(0.1)   // Copper pressed state
     
-    // MARK: - Shadows (Warm and subtle)
-    static let stilystShadow = Color(hex: "#4E4A46").opacity(0.1)    // Warm charcoal shadow
-    static let stilystLightShadow = Color(hex: "#4E4A46").opacity(0.05) // Light warm shadow
+    // MARK: - Shadows (Industrial and subtle)
+    static let stilystShadow = Color(hex: "#3B3C3E").opacity(0.1)    // Iron gray shadow
+    static let stilystLightShadow = Color(hex: "#3B3C3E").opacity(0.05) // Light iron shadow
     
     // MARK: - Additional Brand Colors
-    static let stilystGold = Color(hex: "#CBA977")              // Keep for special accents
-    static let stilystAccent = Color(hex: "#E7BFB2")           // Same as primary for consistency
+    static let stilystGold = Color(hex: "#C8A07A")              // Copper Mist for special accents
+    static let stilystAccent = Color(hex: "#C8A07A")           // Same as primary for consistency
 }
 
 extension Color {

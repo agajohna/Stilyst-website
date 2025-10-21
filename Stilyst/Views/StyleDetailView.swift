@@ -26,7 +26,7 @@ struct StyleDetailView: View {
                             ProgressView()
                         }
                 }
-                .frame(height: 400)
+                .frame(height: 300)
                 .clipped()
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -112,11 +112,11 @@ struct StyleDetailView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: String.self) { styleId in
-            ProviderListView(styleId: styleId)
+            ProviderListView(style: style)
         }
         .onAppear {
             if let styleId = style.id {
-                viewModel.loadProviders(for: styleId)
+                viewModel.loadProviders(for: styleId, styleName: style.name, category: ServiceCategory(rawValue: style.category) ?? .mensHair)
             }
         }
     }
@@ -200,9 +200,9 @@ class StyleDetailViewModel: ObservableObject {
     
     private let providerService = ProviderCollection()
     
-    func loadProviders(for styleId: String) {
+    func loadProviders(for styleId: String, styleName: String, category: ServiceCategory) {
         isLoading = true
-        providerService.fetchProviders(for: styleId) { [weak self] fetchedProviders in
+        providerService.fetchProviders(for: styleId, styleName: styleName, category: category) { [weak self] fetchedProviders in
             DispatchQueue.main.async {
                 self?.providers = fetchedProviders
                 self?.isLoading = false

@@ -15,30 +15,11 @@ class StyleService: ObservableObject {
     func fetchLocalTrendingStyles(for category: ServiceCategory, completion: @escaping ([Style]) -> Void) {
         print("🔍 Fetching styles for category: \(category.rawValue)")
         
-        // First, let's try to get all documents to see what's there
-        db.collection("Men's Hairstyles").getDocuments { snapshot, error in
-            if let error = error {
-                print("❌ Error fetching all styles: \(error)")
-            } else {
-                print("📊 Total documents in styles collection: \(snapshot?.documents.count ?? 0)")
-                for doc in snapshot?.documents ?? [] {
-                    let data = doc.data()
-                    print("📄 Document \(doc.documentID): \(data)")
-                }
-            }
-        }
-        
-        // Also try with capital S in case that's the issue
-        db.collection("styles").getDocuments { snapshot, error in
-            if let error = error {
-                print("❌ Error fetching Styles collection: \(error)")
-            } else {
-                print("📊 Total documents in Styles collection: \(snapshot?.documents.count ?? 0)")
-            }
-        }
+        // Use the category name as the collection name
+        let collectionName = category.rawValue
         
         // Now try the category-specific query
-        db.collection("Men's Hairstyles")
+        db.collection(collectionName)
             .whereField("category", isEqualTo: category.rawValue)
             .getDocuments { snapshot, error in
                 if let error = error {
@@ -83,8 +64,8 @@ class StyleService: ObservableObject {
     }
     
     // MARK: - Increment View Count
-    func incrementViewCount(for styleId: String) {
-        db.collection("Men's Hairstyles").document(styleId)
+    func incrementViewCount(for styleId: String, category: ServiceCategory) {
+        db.collection(category.rawValue).document(styleId)
             .updateData(["viewCount": FieldValue.increment(Int64(1))]) { error in
                 if let error = error {
                     print("Error updating view count: \(error)")
@@ -93,8 +74,8 @@ class StyleService: ObservableObject {
     }
     
     // MARK: - Increment Booking Count
-    func incrementBookingCount(for styleId: String) {
-        db.collection("Men's Hairstyles").document(styleId)
+    func incrementBookingCount(for styleId: String, category: ServiceCategory) {
+        db.collection(category.rawValue).document(styleId)
             .updateData(["bookingCount": FieldValue.increment(Int64(1))]) { error in
                 if let error = error {
                     print("Error updating booking count: \(error)")
@@ -108,9 +89,8 @@ class StyleService: ObservableObject {
         
         // For now, we'll return the same styles but could be enhanced to show city-specific trending data
         // In the future, this could query different collections or use city-specific trending algorithms
-        db.collection("Men's Hairstyles")
+        db.collection(category.rawValue)
             .whereField("category", isEqualTo: category.rawValue)
-            .order(by: "viewCount", descending: true)
             .limit(to: 10) // Show top 10 globally trending styles
             .getDocuments { snapshot, error in
                 if let error = error {

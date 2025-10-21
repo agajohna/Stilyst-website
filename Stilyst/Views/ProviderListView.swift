@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ProviderListView: View {
-    let styleId: String
+    let style: Style
     @StateObject private var viewModel = ProviderListViewModel()
     
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 ForEach(viewModel.providers) { provider in
-                    NavigationLink(destination: ProviderDetailView(provider: provider, styleId: styleId)) {
-                        ProviderCard(provider: provider, styleId: styleId)
+                    NavigationLink(destination: ProviderDetailView(provider: provider, styleId: style.id ?? "")) {
+                        ProviderCard(provider: provider, styleId: style.id ?? "")
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -27,7 +27,9 @@ struct ProviderListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemGroupedBackground))
         .onAppear {
-            viewModel.loadProviders(for: styleId)
+            if let styleId = style.id {
+                viewModel.loadProviders(for: styleId, styleName: style.name, category: ServiceCategory(rawValue: style.category) ?? .mensHair)
+            }
         }
     }
 }
@@ -136,6 +138,7 @@ struct ProviderCard: View {
             .background(Color.blue)
             .cornerRadius(12)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(16)
@@ -250,9 +253,9 @@ class ProviderListViewModel: ObservableObject {
     
     private let providerService = ProviderCollection()
     
-    func loadProviders(for styleId: String) {
+    func loadProviders(for styleId: String, styleName: String, category: ServiceCategory) {
         isLoading = true
-        providerService.fetchProviders(for: styleId) { [weak self] fetchedProviders in
+        providerService.fetchProviders(for: styleId, styleName: styleName, category: category) { [weak self] fetchedProviders in
             DispatchQueue.main.async {
                 self?.providers = fetchedProviders
                 self?.isLoading = false
@@ -263,7 +266,7 @@ class ProviderListViewModel: ObservableObject {
 
 #Preview {
     NavigationStack {
-        ProviderListView(styleId: "style1")
+        ProviderListView(style: MockData.styles[0])
     }
 }
 

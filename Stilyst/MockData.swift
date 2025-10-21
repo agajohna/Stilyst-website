@@ -82,6 +82,7 @@ struct MockData {
     static let providers: [Provider] = [
         Provider(
             id: "provider1",
+            serviceCategory: .mensHair,
             name: "Marcus Johnson",
             businessName: "Elite Cuts Barbershop",
             bio: "Master barber with 12 years of experience specializing in fades and modern men's styles. Certified in classic barbering techniques.",
@@ -107,6 +108,7 @@ struct MockData {
         ),
         Provider(
             id: "provider2",
+            serviceCategory: .mensHair,
             name: "David Chen",
             businessName: "Precision Barber Studio",
             bio: "Award-winning barber specializing in precision cuts and contemporary styles. Featured in Men's Style Magazine 2024.",
@@ -132,6 +134,7 @@ struct MockData {
         ),
         Provider(
             id: "provider3",
+            serviceCategory: .mensHair,
             name: "James Rodriguez",
             businessName: "The Fade Factory",
             bio: "Fade specialist with expertise in all fade variations. 8 years experience making clients look their best.",
@@ -157,6 +160,7 @@ struct MockData {
         ),
         Provider(
             id: "provider4",
+            serviceCategory: .mensHair,
             name: "Anthony Williams",
             businessName: "Sharp Edge Barbershop",
             bio: "Traditional barber offering classic cuts with a modern twist. Known for attention to detail and customer service.",

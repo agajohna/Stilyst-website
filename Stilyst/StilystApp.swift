@@ -7,9 +7,11 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseAuth
 
 @main
 struct StilystApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
         FirebaseApp.configure()
