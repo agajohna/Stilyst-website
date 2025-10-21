@@ -24,7 +24,7 @@ struct HomeView: View {
                         Text("Stilyst")
                             .font(.stilystTitle)
                             .foregroundColor(.stilystText)
-                        Text("The style you want. The pros who do it.")
+                        Text("Discover your look. Book your stylist.")
                             .font(.stilystSubheadline)
                             .foregroundColor(.stilystSecondary)
                     }
