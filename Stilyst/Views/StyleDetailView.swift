@@ -188,11 +188,18 @@ struct ProviderRow: View {
 
 class StyleDetailViewModel: ObservableObject {
     @Published var providers: [Provider] = []
+    @Published var isLoading = false
+    
+    private let providerService = ProviderCollection()
     
     func loadProviders(for styleId: String) {
-        // TODO: Load from Firebase - providers who specialize in this style
-        providers = MockData.providers.filter { $0.specialties.contains(styleId) }
-            .sorted { $0.rating > $1.rating }
+        isLoading = true
+        providerService.fetchProviders(for: styleId) { [weak self] fetchedProviders in
+            DispatchQueue.main.async {
+                self?.providers = fetchedProviders
+                self?.isLoading = false
+            }
+        }
     }
 }
 

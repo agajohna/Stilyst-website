@@ -7,9 +7,10 @@
 
 import Foundation
 import CoreLocation
+import FirebaseFirestoreSwift
 
 struct Provider: Identifiable, Codable, Hashable {
-    let id: String
+    @DocumentID var id: String?
     let name: String
     let businessName: String
     let bio: String
@@ -22,7 +23,7 @@ struct Provider: Identifiable, Codable, Hashable {
     let location: LocationData
     let availability: [String] // Simplified - will expand later
     
-    init(id: String = UUID().uuidString,
+    init(id: String? = nil,
          name: String,
          businessName: String,
          bio: String,

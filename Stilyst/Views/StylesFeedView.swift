@@ -104,12 +104,23 @@ struct StyleCard: View {
 // ViewModel for managing styles data
 class StylesFeedViewModel: ObservableObject {
     @Published var styles: [Style] = []
+    @Published var isLoading = false
+    
+    private let styleService = StyleService()
     
     func loadStyles(for category: ServiceCategory) {
-        // TODO: Load from Firebase
-        // For now, using mock data
-        styles = MockData.styles.filter { $0.category == category.rawValue }
-            .sorted { $0.trendingScore > $1.trendingScore }
+        isLoading = true
+        styleService.fetchStyles(for: category) { [weak self] fetchedStyles in
+            DispatchQueue.main.async {
+                self?.styles = fetchedStyles
+                self?.isLoading = false
+            }
+        }
+    }
+    
+    func incrementViewCount(for style: Style) {
+        guard let styleId = style.id else { return }
+        styleService.incrementViewCount(for: styleId)
     }
 }
 

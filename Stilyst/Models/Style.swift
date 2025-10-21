@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 struct Style: Identifiable, Codable, Hashable {
-    let id: String
+    @DocumentID var id: String?
     let name: String
     let category: String // ServiceCategory rawValue
     let imageURL: String
@@ -23,7 +24,7 @@ struct Style: Identifiable, Codable, Hashable {
         viewCount + (bookingCount * 10) // Weight bookings more heavily
     }
     
-    init(id: String = UUID().uuidString,
+    init(id: String? = nil,
          name: String,
          category: String,
          imageURL: String,
