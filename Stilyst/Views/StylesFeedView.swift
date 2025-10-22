@@ -168,28 +168,47 @@ struct StyleCard: View {
                     endPoint: .bottom
                 )
                 
-                // Trending badge with new color palette
-                if style.trending {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            HStack(spacing: 4) {
-                                Image(systemName: "flame.fill")
-                                    .font(.caption2)
-                                    .foregroundColor(.white)
-                                Text("Trending")
-                                    .font(.stilystCaption2)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.stilystPrimary, in: Capsule())
-                            .padding(.top, 12)
-                            .padding(.trailing, 12)
-                        }
+                // Social media source badge
+                VStack {
+                    HStack {
                         Spacer()
+                        VStack(spacing: 4) {
+                            // Trending badge
+                            if style.trending {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "flame.fill")
+                                        .font(.caption2)
+                                        .foregroundColor(.white)
+                                    Text("Trending")
+                                        .font(.stilystCaption2)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.stilystPrimary, in: Capsule())
+                            }
+                            
+                            // Source badge
+                            if style.sourceType != .manual {
+                                HStack(spacing: 4) {
+                                    Image(systemName: style.sourceType.iconName)
+                                        .font(.caption2)
+                                        .foregroundColor(.white)
+                                    Text(style.sourceType.displayName)
+                                        .font(.stilystCaption2)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.black.opacity(0.7), in: Capsule())
+                            }
+                        }
+                        .padding(.top, 12)
+                        .padding(.trailing, 12)
                     }
+                    Spacer()
                 }
             }
             .cornerRadius(16, corners: [.topLeft, .topRight]) // Rounded top corners only
